@@ -28,9 +28,9 @@
                 <td>{{ order.notes }}</td>
                 <td>{{ order.date }}</td>
                 <td>{{ order.status }}</td>
-                <td>{{ order.level_of_progress }}</td>
+                <td>{{ order.progress }}</td>
                 <td>{{ order.invoiced }}</td>
-                <td>{{ order.edited_by }}</td>
+                <td>{{ order.user }}</td>
             </tr>
         </tbody>
     {% endfor %}
@@ -62,6 +62,25 @@
                                 <option value="Not Started">Not Started</option>
                             </select>
                             <label for="status">Status</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id="progress" name="progress" type="text" class="validate">
+                                <option value="" disabled selected>Level Of Progress</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Picked Up">Picked Up</option>
+                                <option value="Wine Testin">Wine Testing</option>
+                                <option value="To Pack">To Pack</option>
+                            </select>
+                            <label for="progress">Progress</label>
+                        </div>
+                        <div class="input-field col s12 center-align">
+                            <div class="switch">
+                                <label for="invoiced">
+                                    <input type="checkbox" id="invoiced" name="invoiced">
+                                    <span class="lever"></span>
+                                    Invoiced
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="row">

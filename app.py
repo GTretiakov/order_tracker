@@ -21,15 +21,19 @@ mongo = PyMongo(app)
 def get_orders():
     orders = list(mongo.db.orders.find())
     if request.method == 'POST':
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
         order = {
             'order_number': request.form.get('order_number'),
             'notes': request.form.get('notes'),
             'date': request.form.get('date'),
             'status': request.form.get('status'),
+            'progress': request.form.get('progress'),
+            'invoiced': invoiced,
             'user': session['user']
         }
         mongo.db.orders.insert_one(order)
         flash("Ordrer Added!")
+        orders = list(mongo.db.orders.find())
         return render_template('orders.html', orders=orders)
     return render_template('orders.html', orders=orders)
 
