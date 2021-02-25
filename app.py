@@ -17,10 +17,22 @@ app.secret_key = os.environ.get('SECRET_KEY')
 mongo = PyMongo(app)
 
 @app.route('/')
-@app.route('/get_orders')
+@app.route('/get_orders', methods=['GET', 'POST'])
 def get_orders():
     orders = list(mongo.db.orders.find())
+    if request.method == 'POST':
+        order = {
+            'order_number': request.form.get('order_number'),
+            'notes': request.form.get('notes'),
+            'date': request.form.get('date'),
+            'status': request.form.get('status'),
+            'user': session['user']
+        }
+        mongo.db.orders.insert_one(order)
+        flash("Ordrer Added!")
+        return render_template('orders.html', orders=orders)
     return render_template('orders.html', orders=orders)
+
 
 
 

@@ -18,7 +18,7 @@
                 <th>Status</th>
                 <th>Progress</th>
                 <th>Invoiced</th>
-                <th>Edited by</th>
+                <th>Last Edited By</th>
             </tr>
         </thead>
     {% for order in orders %}
@@ -39,14 +39,14 @@
         <li>
             <div class="collapsible-header"><i class="fas fa-plus"></i>Add Order</div>
             <div class="collapsible-body">
-                <form class="col s12" method="POST" action="">
+                <form class="col s12" method="POST" action="{{ url_for('get_orders') }}">
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="order_number" name="order_number" type="text" class="validate">
                             <label for="order_number">Order Number</label>
                         </div>
                         <div class="input-field col s12">
-                            <input id="notes" type="tel" class="validate">
+                            <input id="notes" name="notes" type="text" class="validate">
                             <label for="notes">Notes</label>
                         </div>
                         <div class="input-field col s12">
@@ -54,7 +54,7 @@
                             <label for="date">Date</label>
                         </div>
                         <div class="input-field col s12">
-                            <select>
+                            <select id="status" name="status" type="text" class="validate">
                                 <option value="" disabled selected>Choose Status</option>
                                 <option value="Done">Done</option>
                                 <option value="In Progress">In Progress</option>
@@ -62,6 +62,13 @@
                                 <option value="Not Started">Not Started</option>
                             </select>
                             <label for="status">Status</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <button type="submit" class="btn-large">
+                                Create Order
+                            </button>
                         </div>
                     </div>
                 </form>
