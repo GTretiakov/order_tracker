@@ -24,13 +24,24 @@
     {% for order in orders %}
         <tbody>
             <tr>
-                <td>#{{ order.order_number }}</td>
+                <td>{{ order.order_number }}</td>
                 <td>{{ order.notes }}</td>
                 <td>{{ order.date }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.progress }}</td>
+                {% if order.status is none %}
+                    <td></td>
+                {% else %}
+                    <td>{{ order.status }}</td>
+                {% endif %}
+                {% if order.progress is none %}
+                    <td></td>
+                {% else %}
+                    <td>{{ order.progress }}</td>
+                {% endif %}
                 <td>{{ order.invoiced }}</td>
                 <td>{{ order.user }}</td>
+                <td>
+                    <a href="{{ url_for('delete_order', order_id=order._id) }}" class="btn-small">Delete</a>
+                </td>
             </tr>
         </tbody>
     {% endfor %}
@@ -42,7 +53,7 @@
                 <form class="col s12" method="POST" action="{{ url_for('get_orders') }}">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="order_number" name="order_number" type="text" class="validate">
+                            <input id="order_number" name="order_number" type="text" class="validate" value="#">
                             <label for="order_number">Order Number</label>
                         </div>
                         <div class="input-field col s12">
@@ -55,7 +66,7 @@
                         </div>
                         <div class="input-field col s12">
                             <select id="status" name="status" type="text" class="validate">
-                                <option value="" disabled selected>Choose Status</option>
+                                <option value=" " disabled selected>Choose Status</option>
                                 <option value="Done">Done</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Stuck">Stuck</option>
@@ -65,7 +76,7 @@
                         </div>
                         <div class="input-field col s12">
                             <select id="progress" name="progress" type="text" class="validate">
-                                <option value="" disabled selected>Level Of Progress</option>
+                                <option value=" " disabled selected>Level Of Progress</option>
                                 <option value="Shipped">Shipped</option>
                                 <option value="Picked Up">Picked Up</option>
                                 <option value="Wine Testin">Wine Testing</option>

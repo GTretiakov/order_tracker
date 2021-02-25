@@ -38,6 +38,13 @@ def get_orders():
     return render_template('orders.html', orders=orders)
 
 
+@app.route('/get_orders/<order_id>')
+def delete_order(order_id):
+    mongo.db.orders.remove({'_id': ObjectId(order_id)})
+    flash('Order Deleted')
+    return redirect(url_for('get_orders'))
+
+
 
 
 
