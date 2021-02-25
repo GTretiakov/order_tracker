@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% for order in orders %}
+    <!-- {% for order in orders %}
         {{ order.order_number }}
         {{ order.notes }}
         {{ order.date }}
@@ -8,5 +8,31 @@
         {{ order.level_of_progress }}
         {{ order.invoiced }}
         {{ order.edited_by }}
+    {% endfor %} -->
+    <table>
+        <thead>
+            <tr>
+                <th>Order#</th>
+                <th>Notes</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Invoiced</th>
+                <th>Edited by</th>
+            </tr>
+        </thead>
+    {% for order in orders %}
+        <tbody>
+            <tr>
+                <td>#{{ order.order_number }}</td>
+                <td>{{ order.notes }}</td>
+                <td>{{ order.date }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.level_of_progress }}</td>
+                <td>{{ order.invoiced }}</td>
+                <td>{{ order.edited_by }}</td>
+            </tr>
+        </tbody>
     {% endfor %}
+    </table>
 {% endblock %}

@@ -18,10 +18,12 @@ mongo = PyMongo(app)
 
 @app.route('/')
 @app.route('/get_orders')
-
 def get_orders():
-    orders = mongo.db.orders.find()
+    orders = list(mongo.db.orders.find())
     return render_template('orders.html', orders=orders)
+
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
