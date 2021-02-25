@@ -35,4 +35,37 @@
         </tbody>
     {% endfor %}
     </table>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header"><i class="fas fa-plus"></i>Add Order</div>
+            <div class="collapsible-body">
+                <form class="col s12" method="POST" action="">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="order_number" name="order_number" type="text" class="validate">
+                            <label for="order_number">Order Number</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="notes" type="tel" class="validate">
+                            <label for="notes">Notes</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="date" name="date" type="text" class="datepicker validate">
+                            <label for="date">Date</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select>
+                                <option value="" disabled selected>Choose Status</option>
+                                <option value="Done">Done</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Stuck">Stuck</option>
+                                <option value="Not Started">Not Started</option>
+                            </select>
+                            <label for="status">Status</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
 {% endblock %}
