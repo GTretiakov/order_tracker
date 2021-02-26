@@ -32,10 +32,12 @@ def get_orders():
             'user': session['user']
         }
         mongo.db.orders.insert_one(order)
-        flash("Ordrer Added!")
+        flash("Order Added!")
         orders = list(mongo.db.orders.find())
         return render_template('orders.html', orders=orders)
     return render_template('orders.html', orders=orders)
+
+
 
 
 @app.route('/get_orders/<order_id>')
@@ -43,6 +45,19 @@ def delete_order(order_id):
     mongo.db.orders.remove({'_id': ObjectId(order_id)})
     flash('Order Deleted')
     return redirect(url_for('get_orders'))
+
+
+@app.route('/get_orders/<order_id>', methods=['GET', 'POST'])
+def edit_order_number(order_id):
+    if request.method == 'POST':
+        submit = {
+            '$set': {'order_number': request.form.get('order_number')}
+        }
+        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
+        flash('Order Updated')
+    return redirect(url_for('get_orders'))
+
+
 
 
 

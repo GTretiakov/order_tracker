@@ -24,7 +24,24 @@
     {% for order in orders %}
         <tbody>
             <tr>
-                <td>{{ order.order_number }}</td>
+                <td>
+                    <ul class="collapsible">
+                        <li>
+                        <div class="collapsible-header">{{ order.order_number }}</div>
+                        <div class="collapsible-body">
+                            <form method="POST" action="{{ url_for('edit_order_number', order_id=order._id) }}">
+                                <div class="input-field col s12">
+                                    <input id="order_number" name="order_number" type="text" class="validate" value="#">
+                                    <label for="order_number">Order Number</label>
+                                </div>
+                                <button type="submit" class="btn-small">
+                                    Edit
+                                </button>
+                            </form>
+                        </div>
+                        </li>
+                    </ul>
+                </td>
                 <td>{{ order.notes }}</td>
                 <td>{{ order.date }}</td>
                 {% if order.status is none %}
