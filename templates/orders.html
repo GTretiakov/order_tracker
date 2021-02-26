@@ -27,18 +27,18 @@
                 <td>
                     <ul class="collapsible">
                         <li>
-                        <div class="collapsible-header">{{ order.order_number }}</div>
-                        <div class="collapsible-body">
-                            <form method="POST" action="{{ url_for('edit_order_number', order_id=order._id) }}">
-                                <div class="input-field col s12">
-                                    <input id="order_number" name="order_number" type="text" class="validate" value="#">
-                                    <label for="order_number">Order Number</label>
-                                </div>
-                                <button type="submit" class="btn-small">
-                                    Edit
-                                </button>
-                            </form>
-                        </div>
+                            <div class="collapsible-header">{{ order.order_number }}</div>
+                            <div class="collapsible-body">
+                                <form method="POST" action="{{ url_for('edit_order_number', order_id=order._id) }}">
+                                    <div class="input-field col s12">
+                                        <input id="order_number" name="order_number" type="text" class="validate" value="#">
+                                        <label for="order_number">Order Number</label>
+                                    </div>
+                                    <button type="submit" class="btn-small">
+                                        Edit
+                                    </button>
+                                </form>
+                            </div>
                         </li>
                     </ul>
                 </td>
@@ -54,7 +54,33 @@
                 {% else %}
                     <td>{{ order.progress }}</td>
                 {% endif %}
-                <td>{{ order.invoiced }}</td>
+                <td>
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header">{{ order.invoiced }}</div>
+                            <div class="collapsible-body">
+                                <form method="POST" action="{{ url_for('edit_invoiced', order_id=order._id) }}">
+                                    <div class="input-field col s12 center-align">
+                                        <div class="switch">
+                                            <label>
+                                                {% if order.invoiced == "Yes" %}
+                                                    <input type="checkbox" name="invoiced" checked>
+                                                {% else %}
+                                                    <input type="checkbox" name="invoiced">
+                                                {% endif %}
+                                                <span class="lever"></span>
+                                                Invoiced
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn-small">
+                                        Edit
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </td>
                 <td>{{ order.user }}</td>
                 <td>
                     <a href="{{ url_for('delete_order', order_id=order._id) }}" class="btn-small">Delete</a>
@@ -103,8 +129,8 @@
                         </div>
                         <div class="input-field col s12 center-align">
                             <div class="switch">
-                                <label for="invoiced">
-                                    <input type="checkbox" id="invoiced" name="invoiced">
+                                <label>
+                                    <input type="checkbox" name="invoiced">
                                     <span class="lever"></span>
                                     Invoiced
                                 </label>

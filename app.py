@@ -39,7 +39,6 @@ def get_orders():
 
 
 
-
 @app.route('/get_orders/<order_id>')
 def delete_order(order_id):
     mongo.db.orders.remove({'_id': ObjectId(order_id)})
@@ -58,6 +57,16 @@ def edit_order_number(order_id):
     return redirect(url_for('get_orders'))
 
 
+@app.route('/get_orders/<order_id>', methods=['GET', 'POST'])
+def edit_invoiced(order_id):
+    if request.method == 'POST':
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
+        submit = {
+            '$set': {'invoiced': invoiced}
+        }
+        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
+        flash('Order Updated')
+    return redirect(url_for('get_orders'))
 
 
 
