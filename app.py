@@ -39,36 +39,33 @@ def get_orders():
 
 
 
-@app.route('/get_orders/<order_id>')
+@app.route('/delete_order/<order_id>')
 def delete_order(order_id):
     mongo.db.orders.remove({'_id': ObjectId(order_id)})
     flash('Order Deleted')
     return redirect(url_for('get_orders'))
 
 
-@app.route('/get_orders/<order_id>', methods=['GET', 'POST'])
-def edit_order_number(order_id):
-    if request.method == 'POST':
-        submit = {
-            '$set': {'order_number': request.form.get('order_number')}
-        }
-        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
-        flash('Order Updated')
-    return redirect(url_for('get_orders'))
 
 
-@app.route('/get_orders/<order_id>', methods=['GET', 'POST'])
-def edit_invoiced(order_id):
+
+
+@app.route('/edit_order/<order_id>', methods=['GET', 'POST'])
+def edit_order(order_id):
     if request.method == 'POST':
         invoiced = 'Yes' if request.form.get('invoiced') else 'No'
         submit = {
-            '$set': {'invoiced': invoiced}
+            'order_number': request.form.get('number'+order_id),
+            'notes': request.form.get('notes'+order_id),
+            'date': request.form.get('date'+order_id),
+            'status': request.form.get('status'+order_id),
+            'progress': request.form.get('progress'),
+            'invoiced': invoiced,
+            'user': session['user']
         }
         mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
         flash('Order Updated')
     return redirect(url_for('get_orders'))
-
-
 
 
 
