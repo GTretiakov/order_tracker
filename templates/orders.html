@@ -39,11 +39,19 @@
                                 checkDate();
                                 function checkDate() {
                                     let myD = new Date($('#date{{order._id}}').val())
-                                    var d = new Date()
+                                    let d = new Date()
+                                    let isToday = (myD.getDate() == d.getDate() &&     
+                                    myD.getMonth() == d.getMonth() &&
+                                    myD.getFullYear() == d.getFullYear())
+                                    // The peace of code above is inspired by https://flaviocopes.com/how-to-determine-date-is-today-javascript/
                                     console.log(myD)
+                                    console.log(isToday)
                                     if (d <= myD) {
-                                        $('#date{{order._id}}').addClass('date')
+                                        $('#date{{order._id}}').addClass('dateF')
                                         console.log("yes")
+                                    }
+                                    if (isToday == true) {
+                                        $('#date{{order._id}}').addClass('dateT')
                                     }
                                 }
                             </script>
