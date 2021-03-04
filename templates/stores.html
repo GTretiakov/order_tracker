@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for store in stores %}
+        <a class="waves-effect waves-light btn">{{ store.store_name }}</a>
+    {% endfor %}
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header"><i class="fas fa-plus"></i>Create New Store</div>
+            <div class="collapsible-body">
+                <form class="col s12" method="POST" action="">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="store_name" name="store_name" type="text" class="validate">
+                            <label for="store_name">Store Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center-align">
+                            <button type="submit" class="btn-large">
+                                Create Store
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
+{% endblock %}

@@ -18,7 +18,7 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
                 <ul class="right hide-on-med-and-down">
                     {% if session.user %}
-                        <li><a href="{{ url_for('get_orders') }}">Recent Orders</a></li>
+                        <li><a href="{{ url_for('get_stores') }}">Recent Orders</a></li>
                         <li><a href="#">Completed Orders</a></li>
                         <li><a href="{{ url_for('logout') }}">Sign Out</a></li>
                     {% else %}
@@ -31,7 +31,7 @@
         
         <ul class="sidenav" id="mobile-demo">
             {% if session.user %}
-                <li><a href="{{ url_for('get_orders') }}">Recent Orders</a></li>
+                <li><a href="{{ url_for('get_stores') }}">Recent Orders</a></li>
                 <li><a href="#">Completed Orders</a></li>
                 <li><a href="{{ url_for('logout') }}">Sign Out</a></li>
             {% else %}

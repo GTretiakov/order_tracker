@@ -48,8 +48,6 @@ def delete_order(order_id):
 
 
 
-
-
 @app.route('/edit_order/<order_id>', methods=['GET', 'POST'])
 def edit_order(order_id):
     if request.method == 'POST':
@@ -67,6 +65,19 @@ def edit_order(order_id):
         flash('Order Updated')
     return redirect(url_for('get_orders'))
 
+
+@app.route('/get_stores', methods=['GET', 'POST'])
+def get_stores():
+    stores = list(mongo.db.stores.find())
+    if request.method == 'POST':
+        store = {
+            'store_name': request.form.get('store_name'),
+        }
+        mongo.db.stores.insert_one(store)
+        flash("New Store Created!")
+        stores = list(mongo.db.stores.find())
+        return render_template('stores.html', stores=stores)
+    return render_template('stores.html', stores=stores)
 
 
 @app.route('/register', methods=['GET', 'POST'])
