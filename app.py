@@ -17,55 +17,6 @@ app.secret_key = os.environ.get('SECRET_KEY')
 mongo = PyMongo(app)
 
 @app.route('/')
-@app.route('/get_orders', methods=['GET', 'POST'])
-def get_orders():
-    orders = list(mongo.db.orders.find())
-    if request.method == 'POST':
-        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
-        order = {
-            'order_number': request.form.get('order_number'),
-            'notes': request.form.get('notes'),
-            'date': request.form.get('date'),
-            'status': request.form.get('status'),
-            'progress': request.form.get('progress'),
-            'invoiced': invoiced,
-            'user': session['user']
-        }
-        mongo.db.orders.insert_one(order)
-        flash("Order Added!")
-        orders = list(mongo.db.orders.find())
-        return render_template('orders.html', orders=orders)
-    return render_template('orders.html', orders=orders)
-
-
-
-@app.route('/delete_order/<order_id>')
-def delete_order(order_id):
-    mongo.db.orders.remove({'_id': ObjectId(order_id)})
-    flash('Order Deleted')
-    return redirect(url_for('get_orders'))
-
-
-
-
-@app.route('/edit_order/<order_id>', methods=['GET', 'POST'])
-def edit_order(order_id):
-    if request.method == 'POST':
-        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
-        submit = {
-            'order_number': request.form.get('number'+order_id),
-            'notes': request.form.get('notes'+order_id),
-            'date': request.form.get('date'+order_id),
-            'status': request.form.get('status'+order_id),
-            'progress': request.form.get('progress'),
-            'invoiced': invoiced,
-            'user': session['user']
-        }
-        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
-        flash('Order Updated')
-    return redirect(url_for('get_orders'))
-
-
 @app.route('/get_stores', methods=['GET', 'POST'])
 def get_stores():
     stores = list(mongo.db.stores.find())
@@ -78,6 +29,78 @@ def get_stores():
         stores = list(mongo.db.stores.find())
         return render_template('stores.html', stores=stores)
     return render_template('stores.html', stores=stores)
+
+
+# @app.route('/storename/<store_id>', methods=['GET', 'POST'])
+# def storename(store_id):
+#     store = mongo.db.stores.find_one(
+#         {'_id': ObjectId(store_id)})['store_name']
+#     return render_template('storename.html', store=store)
+
+
+@app.route('/get_orders/<store_id>', methods=['GET', 'POST'])
+def get_orders(store_id):
+    store = mongo.db.stores.find_one(
+        {'_id': ObjectId(store_id)})
+    store_name=mongo.db.stores.find_one(
+        {'_id': ObjectId(store_id)})["store_name"]
+    orders = list(mongo.db.orders.find())
+    if request.method == 'POST':
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
+        order = {
+            'store_name': store_name,
+            'order_number': request.form.get('order_number'),
+            'notes': request.form.get('notes'),
+            'date': request.form.get('date'),
+            'status': request.form.get('status'),
+            'progress': request.form.get('progress'),
+            'invoiced': invoiced,
+            'user': session['user']
+        }
+        mongo.db.orders.insert_one(order)
+        flash("Order Added!")
+        orders = list(mongo.db.orders.find())
+        return render_template('orders.html', orders=orders, store=store)
+    return render_template('orders.html', orders=orders, store=store)
+
+
+
+
+
+@app.route('/delete_order/<order_id>')
+def delete_order(order_id):
+    mongo.db.orders.remove({'_id': ObjectId(order_id)})
+    flash('Order Deleted')
+    return redirect(url_for('get_orders'))
+
+
+
+
+@app.route('/edit_order/<order_id>/<store_id>', methods=['POST'])
+def edit_order(order_id, store_id):
+    if request.method == 'POST':
+        s_id=store_id
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
+        submit = {
+            'store_name': mongo.db.orders.find_one(
+                {'_id': ObjectId(order_id)})['store_name'],
+            'order_number': request.form.get('number'+order_id),
+            'notes': request.form.get('notes'+order_id),
+            'date': request.form.get('date'+order_id),
+            'status': request.form.get('status'+order_id),
+            'progress': request.form.get('progress'),
+            'invoiced': invoiced,
+            'user': session['user']
+        }
+        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
+        flash('Order Updated')
+        return redirect(url_for('get_orders', store_id=s_id))
+   
+
+   
+
+
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
