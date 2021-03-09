@@ -2,7 +2,23 @@
 {% block content %}
     
     {% for store in stores %}
-        <a href="{{ url_for('get_orders', store_id=store._id) }}" class="waves-effect waves-light btn">{{ store.store_name }}</a>
+        
+        <table>
+            <tbody>
+                <tr>
+                    <td class="storeCol">
+                        <div class="">
+                            <a href="{{ url_for('get_orders', store_id=store._id) }}" class="btn StoreBtn">{{ store.store_name }}</a>
+                        </div>
+                    </td>
+                    <td class="deleteStore">
+                        <div class="">
+                            <a href="{{ url_for('delete_store', store_id=store._id) }}" class="btn red deleteStoreBtn">Delete '{{ store.store_name }}'</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     {% endfor %}
     
     

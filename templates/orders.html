@@ -110,7 +110,7 @@
                             <button type="submit" name="submit" id="submit" class="btn-small">Edit</button>
                         </td>
                         <td>
-                            <a href="{{ url_for('delete_order', order_id=order._id) }}" class="btn-small">Delete</a>
+                            <a href="{{ url_for('delete_order', order_id=order._id, store_id=store._id) }}" class="btn-small">Delete</a>
                         </td>
                     </tr>
                 </form>

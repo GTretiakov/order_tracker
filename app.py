@@ -67,13 +67,19 @@ def get_orders(store_id):
 
 
 
-@app.route('/delete_order/<order_id>')
-def delete_order(order_id):
+@app.route('/delete_order/<order_id>/<store_id>')
+def delete_order(order_id, store_id):
+    s_id=store_id
     mongo.db.orders.remove({'_id': ObjectId(order_id)})
     flash('Order Deleted')
-    return redirect(url_for('get_orders'))
+    return redirect(url_for('get_orders', store_id=s_id))
 
 
+@app.route('/delete_store/<store_id>')
+def delete_store(store_id):
+    mongo.db.stores.remove({'_id': ObjectId(store_id)})
+    flash('Store Deleted')
+    return redirect(url_for('get_stores'))
 
 
 @app.route('/edit_order/<order_id>/<store_id>', methods=['POST'])
@@ -95,10 +101,6 @@ def edit_order(order_id, store_id):
         mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
         flash('Order Updated')
         return redirect(url_for('get_orders', store_id=s_id))
-   
-
-   
-
 
 
 
