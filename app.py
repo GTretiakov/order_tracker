@@ -45,6 +45,7 @@ def get_orders(store_id):
     store_name=mongo.db.stores.find_one(
         {'_id': ObjectId(store_id)})["store_name"]
     orders = list(mongo.db.orders.find())
+    progresses = mongo.db.progresses.find()
     if request.method == 'POST':
         invoiced = 'Yes' if request.form.get('invoiced') else 'No'
         order = {
@@ -60,8 +61,8 @@ def get_orders(store_id):
         mongo.db.orders.insert_one(order)
         flash("Order Added!")
         orders = list(mongo.db.orders.find())
-        return render_template('orders.html', orders=orders, store=store)
-    return render_template('orders.html', orders=orders, store=store)
+        return render_template('orders.html', orders=orders, store=store, progresses=progresses)
+    return render_template('orders.html', orders=orders, store=store, progresses=progresses)
 
 
 
@@ -94,7 +95,7 @@ def edit_order(order_id, store_id):
             'notes': request.form.get('notes'+order_id),
             'date': request.form.get('date'+order_id),
             'status': request.form.get('status'+order_id),
-            'progress': request.form.get('progress'),
+            'progress': request.form.get('progress'+order_id),
             'invoiced': invoiced,
             'user': session['user']
         }

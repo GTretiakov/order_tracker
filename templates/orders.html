@@ -39,58 +39,60 @@
                         </td>
                         <td>
                             <input type="text" name="date{{order._id}}" id="date{{order._id}}" value="{{ order.date }}" class="datepicker validate"/>
-                            <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-                            <script>
-                                checkDate();
-                                function checkDate() {
-                                    let myD = new Date($('#date{{order._id}}').val())
-                                    let d = new Date()
-                                    let isToday = (myD.getDate() == d.getDate() &&     
-                                    myD.getMonth() == d.getMonth() &&
-                                    myD.getFullYear() == d.getFullYear())
-                                    // The peace of code above is inspired by https://flaviocopes.com/how-to-determine-date-is-today-javascript/
-                                    console.log(myD)
-                                    console.log(isToday)
-                                    if (d <= myD) {
-                                        $('#date{{order._id}}').addClass('dateF')
-                                        console.log("yes")
-                                    }
-                                    if (isToday == true) {
-                                        $('#date{{order._id}}').addClass('dateT')
-                                    }
-                                }
-                            </script>
                         </td>
-                        <td>
-                            <div class="input-field col s12">
-                            <select id="status{{order._id}}" name="status{{order._id}}" class="validate" required>
-                                <option value="{{ order.status }}" disabled selected>{{ order.status }}</option>
-                                <option value="Done">Done</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Stuck">Stuck</option>
-                                <option value="Not Started">Not Started</option>
-                            </select>
-                            </div>   
-                        </td>
-                        {% if order.progress is none %}
+                        {% if order.status is none %}
                             <td>
-                                <select id="progress" name="progress" type="text" class="validate">
-                                    <option value=" " disabled selected>Level Of Progress</option>
-                                    <option value="Shipped">Shipped</option>
-                                    <option value="Picked Up">Picked Up</option>
-                                    <option value="Wine Testing">Wine Testing</option>
-                                    <option value="To Pack">To Pack</option>
+                                <select id="{{order._id}}" class="validate">
+                                    <option value="" disabled selected>Choose Status</option>
+                                    <option value="Done">Done</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Stuck">Stuck</option>
+                                    <option value="Not Started">Not Started</option>
                                 </select>
+                                <input type="hidden" name="status{{order._id}}" id="status{{order._id}}" value="Choose Status" />
                             </td>
                         {% else %}
                             <td>
-                                <select id="{{ order.progress }}" name="{{ order.progress }}" type="text" class="validate">
-                                    <option value="{{ order.progress }}" disabled selected>{{ order.progress }}</option>
+                                <select id="{{order._id}}" class="validate">
+                                    <option value="" disabled selected>{{ order.status }}</option>
+                                    <option value="Done">Done</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Stuck">Stuck</option>
+                                    <option value="Not Started">Not Started</option>
+                                </select>
+                                <input type="hidden" name="status{{order._id}}" id="status{{order._id}}" value="{{ order.status }}" />
+                            </td>
+                        {% endif %}
+                        {% if order.progress is none %}
+                            <td>
+                                <select id="p{{order._id}}" class="validate">
+                                    <option value="" disabled selected>Level Of Progress</option>
                                     <option value="Shipped">Shipped</option>
                                     <option value="Picked Up">Picked Up</option>
                                     <option value="Wine Testing">Wine Testing</option>
                                     <option value="To Pack">To Pack</option>
                                 </select>
+                                <input type="hidden" name="progress{{order._id}}" id="progress{{order._id}}" value="Level Of Progress" />
+                            </td>
+                        {% else %}
+                            <td>
+                                <select id="p{{order._id}}" class="validate">
+                                    <option value="" disabled selected>{{ order.progress }}</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Picked Up">Picked Up</option>
+                                    <option value="Wine Testing">Wine Testing</option>
+                                    <option value="To Pack">To Pack</option>
+                                </select>
+                                <input type="hidden" name="progress{{order._id}}" id="progress{{order._id}}" value="{{ order.progress }}" />
+                                <!-- <select id="progress{{order._id}}" name="progress{{order._id}}" class="validate" required>
+                                    {% for progress in progresses %}
+                                        {% if progress.progress == order.progress %}
+                                            <option value="{{ progress.progress }}" selected>{{ progress.progress }}</option>
+                                        {% else %}
+                                            <option value="{{ progress.progress }}">{{ progress.progress }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select> -->
                             </td>
                         {% endif %}
                         <td>
@@ -115,6 +117,35 @@
                     </tr>
                 </form>
                 {%endif%}
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+                    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                    checkDate();
+                    function checkDate() {
+                        let myD = new Date($('#date{{order._id}}').val())
+                        let d = new Date()
+                        let isToday = (myD.getDate() == d.getDate() &&
+                            myD.getMonth() == d.getMonth() &&
+                            myD.getFullYear() == d.getFullYear())
+                        // The peace of code above is inspired by https://flaviocopes.com/how-to-determine-date-is-today-javascript/
+                        console.log(myD)
+                        console.log(isToday)
+                        if (d <= myD) {
+                            $('#date{{order._id}}').addClass('dateF')
+                            console.log("yes")
+                        }
+                        if (isToday == true) {
+                            $('#date{{order._id}}').addClass('dateT')
+                        }
+                    }
+                    $('#{{order._id}}').on('change', function () {
+                        $('#status{{order._id}}').val($('#{{order._id}}').val());
+                    });
+                    $('#p{{order._id}}').on('change', function () {
+                        $('#progress{{order._id}}').val($('#p{{order._id}}').val());
+                    });
+                    // This peace of code above takes value from materialize select and inserts it to a hidden input https://stackoverflow.com/questions/43403306/materialize-select-dropdown-not-passing-value-to-controller-in-ruby/43404104
+                </script>
             {% endfor %}
         </tbody>
     </table>
@@ -138,7 +169,7 @@
                         </div>
                         <div class="input-field col s12">
                             <select id="status" name="status" type="text" class="validate">
-                                <option value=" " disabled selected>Choose Status</option>
+                                <option value="" disabled selected>Choose Status</option>
                                 <option value="Done">Done</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Stuck">Stuck</option>
@@ -148,7 +179,7 @@
                         </div>
                         <div class="input-field col s12">
                             <select id="progress" name="progress" type="text" class="validate">
-                                <option value=" " disabled selected>Level Of Progress</option>
+                                <option value="" disabled selected>Level Of Progress</option>
                                 <option value="Shipped">Shipped</option>
                                 <option value="Picked Up">Picked Up</option>
                                 <option value="Wine Testing">Wine Testing</option>
