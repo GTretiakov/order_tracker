@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+body {
+    font-family: 'Roboto Mono', monospace;
+}
+
 .flashes h4 {
     line-height: 2;
     text-align: center;
 }
+/* DATE */
 .dateF {
     color: blue;
 }
@@ -15,9 +22,9 @@
     width: 100%;
 }
 
-.deleteStoreBtn {
+/* .deleteStoreBtn {
     width: 50%;
-}
+} */
 
 .storeCol {
     width: 50%;
@@ -25,5 +32,14 @@
 }
 
 .deleteStore {
-    text-align: right;
+    text-align: center;
+}
+
+/* STATUS */
+.Stuck {
+    background-color: red;
+}
+
+.orders > td {
+    padding: 0px 5px;
 }

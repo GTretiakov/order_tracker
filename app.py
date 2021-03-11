@@ -20,6 +20,7 @@ mongo = PyMongo(app)
 @app.route('/get_stores', methods=['GET', 'POST'])
 def get_stores():
     stores = list(mongo.db.stores.find())
+    flash("Recent Orders")
     if request.method == 'POST':
         store = {
             'store_name': request.form.get('store_name'),
@@ -27,8 +28,24 @@ def get_stores():
         mongo.db.stores.insert_one(store)
         flash("New Store Created!")
         stores = list(mongo.db.stores.find())
-        return render_template('stores.html', stores=stores)
-    return render_template('stores.html', stores=stores)
+        return render_template(
+            'stores.html', stores=stores, recent_orders=True)
+    return render_template('stores.html', stores=stores, recent_orders=True)
+
+
+@app.route('/get_comp', methods=['GET', 'POST'])
+def get_comp():
+    stores = list(mongo.db.stores.find())
+    flash("Completed Orders")
+    if request.method == 'POST':
+        store = {
+            'store_name': request.form.get('store_name'),
+        }
+        mongo.db.stores.insert_one(store)
+        flash("New Store Created!")
+        stores = list(mongo.db.stores.find())
+        return render_template('stores_comp.html', stores=stores, comp_orders=True)
+    return render_template('stores_comp.html', stores=stores, comp_orders=True)
 
 
 # @app.route('/storename/<store_id>', methods=['GET', 'POST'])
@@ -61,9 +78,42 @@ def get_orders(store_id):
         mongo.db.orders.insert_one(order)
         flash("Order Added!")
         orders = list(mongo.db.orders.find())
-        return render_template('orders.html', orders=orders, store=store, progresses=progresses)
-    return render_template('orders.html', orders=orders, store=store, progresses=progresses)
+        return render_template(
+            'orders.html', orders=orders, store=store, recent_orders=True)
+    return render_template(
+        'orders.html', orders=orders, store=store, recent_orders=True)
 
+
+
+@app.route('/completed/<store_id>', methods=['GET', 'POST'])
+def completed(store_id):
+    store = mongo.db.stores.find_one(
+        {'_id': ObjectId(store_id)})
+    store_name=mongo.db.stores.find_one(
+        {'_id': ObjectId(store_id)})["store_name"]
+    orders = list(mongo.db.orders.find())
+    progresses = mongo.db.progresses.find()
+    if request.method == 'POST':
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
+        order = {
+            'store_name': store_name,
+            'order_number': request.form.get('order_number'),
+            'notes': request.form.get('notes'),
+            'date': request.form.get('date'),
+            'status': request.form.get('status'),
+            'progress': request.form.get('progress'),
+            'invoiced': invoiced,
+            'user': session['user']
+        }
+        mongo.db.orders.insert_one(order)
+        flash("Order Added!")
+        orders = list(mongo.db.orders.find())
+        return render_template(
+            'completed.html', orders=orders, store=store,
+             progresses=progresses, comp_orders=True)
+    return render_template(
+        'completed.html', orders=orders, store=store,
+         progresses=progresses, comp_orders=True)
 
 
 
@@ -138,7 +188,7 @@ def login():
                 exitsting_user['password'], request.form.get('password')):
                     session['user'] = request.form.get('username').lower()
                     flash('Welcome, {}'.format(request.form.get('username')))
-                    return redirect(url_for('get_orders', username=session['user']))
+                    return redirect(url_for('get_stores', username=session['user']))
             else:
                 flash('Incorrect Username and/or Password')
                 return redirect(url_for('login'))

@@ -5,6 +5,7 @@ $(document).ready(function () {
         showClearBtn: true
     });
     $('select').formSelect();
+    $('.tooltipped').tooltip();
     
 
     
