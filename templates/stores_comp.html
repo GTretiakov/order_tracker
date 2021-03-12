@@ -15,7 +15,7 @@
                     </td>
                     <td class="deleteStore">
                         <div class="">
-                            <a href="{{ url_for('delete_store', store_id=store._id) }}" class="btn deleteStoreBtn tooltipped" data-tooltip="DELETE" style="background-color: #87256c;">
+                            <a href="{{ url_for('delete_store', store_id=store._id) }}" class="btn deleteStoreBtn tooltipped" data-tooltip="Delete '{{ store.store_name }}'" style="background-color: #87256c;">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </div>
@@ -24,28 +24,4 @@
             </tbody>
         </table>
     {% endfor %}
-    
-    
-    <ul class="collapsible">
-        <li>
-            <div class="collapsible-header"><i class="fas fa-plus"></i>Create New Store</div>
-            <div class="collapsible-body">
-                <form class="col s12" method="POST" action="">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="store_name" name="store_name" type="text" class="validate">
-                            <label for="store_name">Store Name</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 center-align">
-                            <button type="submit" class="btn-large" style="background-color: #00778a;">
-                                Create Store
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>
-    </ul>
 {% endblock %}

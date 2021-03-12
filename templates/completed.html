@@ -28,8 +28,8 @@
         </thead>
         <tbody>
             {% for order in orders %}
-                {% if (order.status == "Done") and (order.store_name == store.store_name) %}
-                <form action="{{ url_for('edit_order', order_id=order._id, store_id=store._id) }}" method="POST">
+                {% if (order.status == "Completed") and (order.store_name == store.store_name) %}
+                <form action="{{ url_for('edit_comp', order_id=order._id, store_id=store._id) }}" method="POST">
                     <tr>
                         <td>
                             <input type="text" name="number{{order._id}}" id="number{{order._id}}" value="{{ order.order_number }}" />
@@ -112,13 +112,13 @@
                         <td>{{ order.user }}</td>
                         <td>
                             <button type="submit" name="submit" id="submit" class="btn-small" style="background-color: #00778a;">
-                                <i class="fas fa-save tooltipped" data-tooltip="SAVE"></i>
+                                <i class="fas fa-save tooltipped" data-tooltip="SAVE CHANGES"></i>
                             </button>
                         </td>
                         {% if session.user|lower == 'admin'|lower %}
                             <td>
                                 <a href="{{ url_for('delete_order', order_id=order._id, store_id=store._id) }}" class="btn-small" style="background-color: #87256c;">
-                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="fas fa-trash-alt tooltipped" data-tooltip="DELETE ORDER"></i>
                                 </a>
                             </td>
                         {%endif%}
@@ -157,65 +157,4 @@
             {% endfor %}
         </tbody>
     </table>
-    <ul class="collapsible">
-        <li>
-            <div class="collapsible-header"><i class="fas fa-plus"></i>Add Order</div>
-            <div class="collapsible-body">
-                <form class="col s12" method="POST" action="{{ url_for('get_orders', store_id=store._id) }}">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="order_number" name="order_number" type="text" class="validate" value="#">
-                            <label for="order_number">Order Number</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="notes" name="notes" type="text" class="validate">
-                            <label for="notes">Notes</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input id="date" name="date" type="text" class="datepicker validate">
-                            <label for="date">Date</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <select id="status" name="status" type="text" class="validate">
-                                <option value="" disabled selected>Choose Status</option>
-                                {% if session.user|lower == 'admin'|lower %}
-                                    <option value="Done">Done</option>
-                                {% endif %}
-                                <option value="In Progress">In Progress</option>
-                                <option value="Stuck">Stuck</option>
-                                <option value="Started">Not Started</option>
-                            </select>
-                            <label for="status">Status</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <select id="progress" name="progress" type="text" class="validate">
-                                <option value="" disabled selected>Level Of Progress</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Picked Up">Picked Up</option>
-                                <option value="Wine Testing">Wine Testing</option>
-                                <option value="To Pack">To Pack</option>
-                            </select>
-                            <label for="progress">Progress</label>
-                        </div>
-                        <div class="input-field col s12 center-align">
-                            <div class="switch">
-                                <label>
-                                    <input type="checkbox" name="invoiced">
-                                    <span class="lever"></span>
-                                    Invoiced
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 center-align">
-                            <button type="submit" class="btn-large" style="background-color: #00778a;">
-                                Create Order
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>
-    </ul>
 {% endblock %}

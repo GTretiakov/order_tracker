@@ -15,7 +15,7 @@
                     </td>
                     <td class="deleteStore">
                         <div class="">
-                            <a href="{{ url_for('delete_store', store_id=store._id) }}" class="btn deleteStoreBtn tooltipped" data-tooltip="DELETE" style="background-color: #87256c;">
+                            <a href="{{ url_for('delete_store', store_id=store._id) }}" class="btn deleteStoreBtn tooltipped" data-tooltip="Delete '{{ store.store_name }}'" style="background-color: #87256c;">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </div>

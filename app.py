@@ -75,7 +75,10 @@ def get_orders(store_id):
             'invoiced': invoiced,
             'user': session['user']
         }
-        mongo.db.orders.insert_one(order)
+        order_exists = mongo.db.orders.find_one(order)
+        if order_exists is None:
+            mongo.db.orders.insert_one(order)
+        
         flash("Order Added!")
         orders = list(mongo.db.orders.find())
         return render_template(
@@ -154,6 +157,25 @@ def edit_order(order_id, store_id):
         return redirect(url_for('get_orders', store_id=s_id))
 
 
+@app.route('/edit_comp/<order_id>/<store_id>', methods=['POST'])
+def edit_comp(order_id, store_id):
+    if request.method == 'POST':
+        s_id=store_id
+        invoiced = 'Yes' if request.form.get('invoiced') else 'No'
+        submit = {
+            'store_name': mongo.db.orders.find_one(
+                {'_id': ObjectId(order_id)})['store_name'],
+            'order_number': request.form.get('number'+order_id),
+            'notes': request.form.get('notes'+order_id),
+            'date': request.form.get('date'+order_id),
+            'status': request.form.get('status'+order_id),
+            'progress': request.form.get('progress'+order_id),
+            'invoiced': invoiced,
+            'user': session['user']
+        }
+        mongo.db.orders.update({'_id': ObjectId(order_id)}, submit)
+        flash('Order Updated')
+        return redirect(url_for('completed', store_id=s_id))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -173,7 +195,7 @@ def register():
 
         session['user'] = request.form.get('username').lower()
         flash('Registration Successful!')
-        return redirect(url_for('get_orders', username=session['user']))
+        return redirect(url_for('get_stores', username=session['user']))
     return render_template('register.html')
 
 

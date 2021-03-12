@@ -44,7 +44,7 @@
                             <td id="st{{order._id}}">
                                 <select id="{{order._id}}" class="validate">
                                     <option value="" disabled selected>Choose Status</option>
-                                    <option value="Done">Done</option>
+                                    <option value="Completed">Completed</option>
                                     <option value="In Progress">In Progress</option>
                                     <option value="Stuck">Stuck</option>
                                     <option value="Not Started">Not Started</option>
@@ -112,13 +112,13 @@
                         <td>{{ order.user }}</td>
                         <td>
                             <button type="submit" name="submit" id="submit" class="btn-small" style="background-color: #00778a;">
-                                <i class="fas fa-save tooltipped" data-tooltip="SAVE"></i>
+                                <i class="fas fa-save tooltipped" data-tooltip="SAVE CHANGES"></i>
                             </button>
                         </td>
                         {% if session.user|lower == 'admin'|lower %}
                             <td>
                                 <a href="{{ url_for('delete_order', order_id=order._id, store_id=store._id) }}" class="btn-small" style="background-color: #87256c;">
-                                    <i class="fas fa-trash-alt tooltipped" data-tooltip="DELETE"></i>
+                                    <i class="fas fa-trash-alt tooltipped" data-tooltip="DELETE ORDER"></i>
                                 </a>
                             </td>
                         {%endif%}
@@ -149,7 +149,12 @@
                         console.log(st)
                         if ($('#status{{order._id}}').val() == 'Stuck') {
                             $('#st{{order._id}}').addClass('Stuck')
-                            console.log("yes")
+                        }
+                        if ($('#status{{order._id}}').val() == 'In Progress') {
+                            $('#st{{order._id}}').addClass('inProgress')
+                        }
+                        if ($('#status{{order._id}}').val() == 'Not Started') {
+                            $('#st{{order._id}}').addClass('notStarted')
                         }
                     }
                     $('#{{order._id}}').on('change', function () {
