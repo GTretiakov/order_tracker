@@ -2,7 +2,7 @@
 This project is an application designed for internal use by a [distribution company](https://kolonakigroup.com/). The purpose of this application is to provide better coordination between different departments inside the company. The application helps to organize big number of orders that come to the company daily in such a way that all orders can be grouped in different categories ('stores') and every order clearly represents its current status and can be updated by a respective department accordingly.
 
 ## UX
-An inspiration for this project comes from [monday.com](https://monday.com/), an environment that helps companies to organize and manage their work process, and which is now used by my client. The company sells different categories of products (mostly wines and foods) via different platforms (such as Amazon and Shopify) as well as direct purchases from a warehouse. It is very important to stay organized in this flow of data from multiple sources.
+An inspiration for this project comes from [monday.com](https://monday.com/), an environment that helps companies to organize and manage their work process, and which is currently used by my client. The company sells different categories of products (mostly wines and foods) via different platforms (such as Amazon and Shopify) as well as direct purchases from a warehouse. It is very important to stay organized in this flow of data from multiple sources.
 ![monday](/images/monday.jpg)
  
 ### User Stories
@@ -27,7 +27,7 @@ An inspiration for this project comes from [monday.com](https://monday.com/), an
 
 ## Features left to Implement
 * Make the application more secure, so registration is not available to everyone.
-* Make the application mobile friendly, as now it is more suitable for a desktop computer.
+* Make the application mobile friendly, as originally it was designed to be suitable for a desktop computer.
 * Ability to create new and manage existing order's statuses and progresses.
 
 ## Technologies Used
