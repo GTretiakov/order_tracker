@@ -44,42 +44,34 @@ def login():
 
 @app.route('/get_stores', methods=['GET', 'POST'])
 def get_stores():
-    stores = list(mongo.db.stores.find())
-    flash("Recent Orders")
-    if request.method == 'POST':
-        store = {
-            'store_name': request.form.get('store_name'),
-        }
-        store_exists = mongo.db.stores.find_one(store)
-        if store_exists is None:
-            mongo.db.stores.insert_one(store)
-            flash("New Store Created!")
-            stores = list(mongo.db.stores.find())
-            return render_template(
-                'stores.html', stores=stores, recent_orders=True)
-    return render_template('stores.html', stores=stores, recent_orders=True)
+    if 'user' in session:
+        stores = list(mongo.db.stores.find())
+        flash("Recent Orders")
+        if request.method == 'POST':
+            store = {
+                'store_name': request.form.get('store_name'),
+            }
+            store_exists = mongo.db.stores.find_one(store)
+            if store_exists is None:
+                mongo.db.stores.insert_one(store)
+                flash("New Store Created!")
+                stores = list(mongo.db.stores.find())
+                return render_template(
+                    'stores.html', stores=stores, recent_orders=True)
+        return render_template('stores.html', stores=stores, recent_orders=True)
+    else:
+        return render_template('login.html')
 
 
 @app.route('/get_comp', methods=['GET', 'POST'])
 def get_comp():
-    stores = list(mongo.db.stores.find())
-    flash("Completed Orders")
-    if request.method == 'POST':
-        store = {
-            'store_name': request.form.get('store_name'),
-        }
-        mongo.db.stores.insert_one(store)
-        flash("New Store Created!")
+    if 'user' in session:
         stores = list(mongo.db.stores.find())
+        flash("Completed Orders")
         return render_template('stores_comp.html', stores=stores, comp_orders=True)
-    return render_template('stores_comp.html', stores=stores, comp_orders=True)
+    else:
+        return render_template('login.html')
 
-
-# @app.route('/storename/<store_id>', methods=['GET', 'POST'])
-# def storename(store_id):
-#     store = mongo.db.stores.find_one(
-#         {'_id': ObjectId(store_id)})['store_name']
-#     return render_template('storename.html', store=store)
 
 
 @app.route('/get_orders/<store_id>', methods=['GET', 'POST'])
