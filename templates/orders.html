@@ -1,14 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- {% for order in orders %}
-        {{ order.order_number }}
-        {{ order.notes }}
-        {{ order.date }}
-        {{ order.status }}
-        {{ order.level_of_progress }}
-        {{ order.invoiced }}
-        {{ order.edited_by }}
-    {% endfor %} -->
     <div class="row">
         <h1>
             {{store.store_name}}
@@ -86,15 +77,6 @@
                                     <option value="To Pack">To Pack</option>
                                 </select>
                                 <input type="hidden" name="progress{{order._id}}" id="progress{{order._id}}" value="{{ order.progress }}" />
-                                <!-- <select id="progress{{order._id}}" name="progress{{order._id}}" class="validate" required>
-                                    {% for progress in progresses %}
-                                        {% if progress.progress == order.progress %}
-                                            <option value="{{ progress.progress }}" selected>{{ progress.progress }}</option>
-                                        {% else %}
-                                            <option value="{{ progress.progress }}">{{ progress.progress }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select> -->
                             </td>
                         {% endif %}
                         <td>
