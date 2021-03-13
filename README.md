@@ -11,4 +11,4 @@ An inspiration for this project comes from [monday.com](https://monday.com/), an
 * As a user, I want to create new orders and update recent orders.
 * As a user, I want order's current status and progress to appear in different colors.
 * As an admin, I want to have exclusive right to delete orders and mark them as completed.
-![wireframe](/images/wireframe)
+![wireframe](/images/wireframe.jpg)
