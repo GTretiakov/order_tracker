@@ -8,6 +8,11 @@ body {
     line-height: 2;
     text-align: center;
 }
+
+.orders > td {
+    padding: 0px 5px;
+}
+
 /* DATE */
 .dateF {
     color: blue;
@@ -37,7 +42,7 @@ body {
 
 /* STATUS */
 .Stuck {
-    background-color: red;
+    background-color: rgb(223, 107, 123)
 }
 
 .inProgress {
@@ -48,7 +53,16 @@ body {
     background-color: orange;
 }
 
-
-.orders > td {
-    padding: 0px 5px;
+/* PROGRESS */
+.shipped {
+    background-color: greenyellow;
+}
+.pickedUp {
+    background-color: rgb(97, 178, 216);
+}
+.toPack {
+    background-color: #ec407a;
+}
+.wineTest {
+    background-color: violet;
 }

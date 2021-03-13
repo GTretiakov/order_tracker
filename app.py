@@ -17,6 +17,31 @@ app.secret_key = os.environ.get('SECRET_KEY')
 mongo = PyMongo(app)
 
 @app.route('/')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if 'user' in session:
+        return redirect(url_for('get_stores'))
+    if request.method == 'POST':
+        exitsting_user = mongo.db.users.find_one(
+            {'username': request.form.get('username').lower()})
+
+        if exitsting_user:
+            if check_password_hash(
+                exitsting_user['password'], request.form.get('password')):
+                    session['user'] = request.form.get('username').lower()
+                    flash('Welcome, {}'.format(request.form.get('username')))
+                    return redirect(url_for('get_stores', username=session['user']))
+            else:
+                flash('Incorrect Username and/or Password')
+                return redirect(url_for('login'))
+
+        else:
+            flash('Incorrect Username and/or Password')
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+
+
 @app.route('/get_stores', methods=['GET', 'POST'])
 def get_stores():
     stores = list(mongo.db.stores.find())
@@ -25,11 +50,13 @@ def get_stores():
         store = {
             'store_name': request.form.get('store_name'),
         }
-        mongo.db.stores.insert_one(store)
-        flash("New Store Created!")
-        stores = list(mongo.db.stores.find())
-        return render_template(
-            'stores.html', stores=stores, recent_orders=True)
+        store_exists = mongo.db.stores.find_one(store)
+        if store_exists is None:
+            mongo.db.stores.insert_one(store)
+            flash("New Store Created!")
+            stores = list(mongo.db.stores.find())
+            return render_template(
+                'stores.html', stores=stores, recent_orders=True)
     return render_template('stores.html', stores=stores, recent_orders=True)
 
 
@@ -78,11 +105,10 @@ def get_orders(store_id):
         order_exists = mongo.db.orders.find_one(order)
         if order_exists is None:
             mongo.db.orders.insert_one(order)
-        
-        flash("Order Added!")
-        orders = list(mongo.db.orders.find())
-        return render_template(
-            'orders.html', orders=orders, store=store, recent_orders=True)
+            flash("Order Added!")
+            orders = list(mongo.db.orders.find())
+            return render_template(
+                'orders.html', orders=orders, store=store, recent_orders=True)
     return render_template(
         'orders.html', orders=orders, store=store, recent_orders=True)
 
@@ -197,28 +223,6 @@ def register():
         flash('Registration Successful!')
         return redirect(url_for('get_stores', username=session['user']))
     return render_template('register.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        exitsting_user = mongo.db.users.find_one(
-            {'username': request.form.get('username').lower()})
-
-        if exitsting_user:
-            if check_password_hash(
-                exitsting_user['password'], request.form.get('password')):
-                    session['user'] = request.form.get('username').lower()
-                    flash('Welcome, {}'.format(request.form.get('username')))
-                    return redirect(url_for('get_stores', username=session['user']))
-            else:
-                flash('Incorrect Username and/or Password')
-                return redirect(url_for('login'))
-
-        else:
-            flash('Incorrect Username and/or Password')
-            return redirect(url_for('login'))
-    return render_template('login.html')
 
 
 @app.route('/logout')
