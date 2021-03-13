@@ -12,3 +12,4 @@ An inspiration for this project comes from [monday.com](https://monday.com/), an
 * As a user, I want order's current status and progress to appear in different colors.
 * As an admin, I want to have exclusive right to delete orders and mark them as completed.
 ![wireframe](/images/wireframe.jpg)
+![wireframe](/images/wireframe2.jpg)
