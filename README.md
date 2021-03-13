@@ -44,5 +44,6 @@ An inspiration for this project comes from [monday.com](https://monday.com/), an
 -	Materialize
 -	Heroku
 -	MongoDB
+-	Font Awesome
 
 ## Testing
