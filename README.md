@@ -3,5 +3,5 @@ This project is an application designed for internal use by a [distribution comp
 
 ## UX
 An inspiration for this project comes from [monday.com](https://monday.com/), an environment that helps companies to organize and manage their work process, and which is now used by my client.
-(/images/monday.jpg)
+![monday](/images/monday.jpg)
 The company sells different categories of products (mostly wines and foods) via different platforms (such as Amazon and Shopify) as well as direct purchases from a warehouse. 
