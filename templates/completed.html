@@ -30,7 +30,7 @@
             {% for order in orders %}
                 {% if (order.status == "Completed") and (order.store_name == store.store_name) %}
                 <form action="{{ url_for('edit_comp', order_id=order._id, store_id=store._id) }}" method="POST">
-                    <tr>
+                    <tr class="orders">
                         <td>
                             <input type="text" name="number{{order._id}}" id="number{{order._id}}" value="{{ order.order_number }}" />
                         </td>
@@ -66,7 +66,7 @@
                             </td>
                         {% endif %}
                         {% if order.progress is none %}
-                            <td>
+                            <td id="pr{{order._id}}">
                                 <select id="p{{order._id}}" class="validate">
                                     <option value="" disabled selected>Level Of Progress</option>
                                     <option value="Shipped">Shipped</option>
@@ -77,7 +77,7 @@
                                 <input type="hidden" name="progress{{order._id}}" id="progress{{order._id}}" value="Level Of Progress" />
                             </td>
                         {% else %}
-                            <td>
+                            <td id="pr{{order._id}}">
                                 <select id="p{{order._id}}" class="validate">
                                     <option value="" disabled selected>{{ order.progress }}</option>
                                     <option value="Shipped">Shipped</option>
@@ -86,15 +86,6 @@
                                     <option value="To Pack">To Pack</option>
                                 </select>
                                 <input type="hidden" name="progress{{order._id}}" id="progress{{order._id}}" value="{{ order.progress }}" />
-                                <!-- <select id="progress{{order._id}}" name="progress{{order._id}}" class="validate" required>
-                                    {% for progress in progresses %}
-                                        {% if progress.progress == order.progress %}
-                                            <option value="{{ progress.progress }}" selected>{{ progress.progress }}</option>
-                                        {% else %}
-                                            <option value="{{ progress.progress }}">{{ progress.progress }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select> -->
                             </td>
                         {% endif %}
                         <td>
@@ -144,6 +135,23 @@
                         }
                         if (isToday == true) {
                             $('#date{{order._id}}').addClass('dateT')
+                        }
+                    }
+                    checkProg();
+                    function checkProg() {
+                        let pr = $('#progress{{order._id}}').val()
+                        console.log(pr)
+                        if (pr == 'Shipped') {
+                            $('#pr{{order._id}}').addClass('shipped')
+                        }
+                        if (pr == 'Picked Up') {
+                            $('#pr{{order._id}}').addClass('pickedUp')
+                        }
+                        if (pr == 'To Pack') {
+                            $('#pr{{order._id}}').addClass('toPack')
+                        }
+                        if (pr == 'Wine Testing') {
+                            $('#pr{{order._id}}').addClass('wineTest')
                         }
                     }
                     $('#{{order._id}}').on('change', function () {
